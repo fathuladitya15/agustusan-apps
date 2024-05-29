@@ -31,7 +31,7 @@ class PaymentController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($row) {
                 $update = '<a href="'.route('detail.event',['id' => $row->id]).'" class="btn btn-primary btn-sm edit-event" id="btn_edit'.$row->id.'" data-id="'.$row->id.'"><i class="nav-icon fas fa-solid fa-server"></i></a>';
-                $addAmount = '<button class="btn btn-success btn-sm add_biaya" id="btn_'.$row->id.'" data-id="'.$row->id.'" data-value="'.$row->biaya_perkk.'" ><i class="nav-icon fas fa-dollar"></i></button>';
+                $addAmount = '<button class="btn btn-success btn-sm add_biaya" id="btn_'.$row->id.'" data-id="'.$row->id.'" data-value="'.$row->biaya_perkk.'" ><b>Rp</b></button>';
                 return $update.'&nbsp;'.$addAmount;
             })
             ->addColumn('total_pendapatan',function($row) {

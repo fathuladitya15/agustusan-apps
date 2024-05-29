@@ -17,14 +17,14 @@
             <!-- Box total pelamar  -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>150</h3>
+                    <h3>{{ $countHousehold }}</h3>
 
-                    <p>Pelamar</p>
+                    <p>Total Penduduk</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-users"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('penduduk') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -33,9 +33,9 @@
             <div class="small-box bg-success">
                 <div class="inner">
                     {{-- <h3>53<sup style="font-size: 20px">%</sup></h3> --}}
-                    <h3>53</h3>
+                    <h3>{{ $getPayment }}</h3>
 
-                    <p>Lowongan Kerja</p>
+                    <p>{{ $nameEvent }}</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-newspaper"></i>
@@ -44,13 +44,14 @@
             </div>
         </div>
         <!-- ./col -->
+        @can('manage_users')
         <div class="col-lg-3 col-6">
             <!-- box karyawan yang aktif -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>44</h3>
+                    <h3>{{ $getCountUsers }}</h3>
 
-                    <p>Karyawan Aktif</p>
+                    <p>Pengguna</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-user-check"></i>
@@ -58,9 +59,10 @@
                 <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
+
+        @endcan
         <!-- ./col -->
-        <div class="col-lg-3 col-6">
-        <!-- box karyawan tidak aktif -->
+        {{-- <div class="col-lg-3 col-6">
             <div class="small-box bg-danger">
                 <div class="inner">
                     <h3>65</h3>
@@ -72,7 +74,7 @@
                 </div>
                 <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-        </div>
+        </div> --}}
         <!-- ./col -->
     </div>
     <!-- /.row -->
