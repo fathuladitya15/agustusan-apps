@@ -29,6 +29,9 @@ Route::middleware('auth')->group(function() {
 
         Route::prefix('penduduk')->group(function() {
             Route::get('index',[HouseholdController::class,'index'])->name('penduduk');
+            Route::post('create',[HouseholdController::class,'store'])->name('penduduk.store');
+            Route::get('get-edit/{id}',[HouseholdController::class,'edit'])->name('penduduk.edit');
+            Route::post('update',[HouseholdController::class,'update'])->name('penduduk.update');
             Route::get('data',[HouseholdController::class,'getPenduduk'])->name('get.penduduk');
             Route::delete('delete/{id}',[HouseholdController::class,'deletePenduduk'])->name('delete.penduduk');
         });
