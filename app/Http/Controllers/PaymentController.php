@@ -31,19 +31,31 @@ class PaymentController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($row) {
                 $update = '<a href="'.route('detail.event',['id' => $row->id]).'" class="btn btn-primary btn-sm edit-event" id="btn_edit'.$row->id.'" data-id="'.$row->id.'"><i class="nav-icon fas fa-solid fa-server"></i></a>';
-                // $delete = '<button class="btn btn-danger btn-sm delete-event" id="btn_'.$row->id.'" data-id="'.$row->id.'" data-url="'.route('delete.event',['id' => $row->id]).'"><i class="nav-icon fas fa-trash"></i></button>';
-                return $update;
+                $addAmount = '<button class="btn btn-success btn-sm add_biaya" id="btn_'.$row->id.'" data-id="'.$row->id.'" data-value="'.$row->biaya_perkk.'" ><i class="nav-icon fas fa-dollar"></i></button>';
+                return $update.'&nbsp;'.$addAmount;
             })
             ->addColumn('total_pendapatan',function($row) {
                 return "Rp. ". number_format($row->total_pendapatan,0,',','.');
+            })
+            ->addColumn('biaya_perkk',function($row) {
+                if($row->biaya_perkk == null) {
+                    return "Rp. ". number_format(0,0,',','.');
+                }
+                return "Rp. ". number_format($row->biaya_perkk,0,',','.');
             })
             ->rawColumns(['action'])
             ->make(true);
     }
 
+    function updateEvent(Request $request) {
+        return response()->json(['pesan' => 'Biaya per KK diperbaharui']);
+    }
+
     function detailEvent($id) {
         $data = event::find($id);
-
+        if($data->biaya_perkk == null ) {
+            return redirect()->back()->with('errors','Biaya per KK Belum diisi');
+        }
         $totalAllPayments = DetailEvent::where('event_id',$id)->sum('jumlah_bayar');
 
         $formatAllPayments = "Rp. ". number_format($totalAllPayments,0,',','.');
@@ -94,6 +106,19 @@ class PaymentController extends Controller
             ->addColumn('created_at', function($row) {
                 return Carbon::parse($row->created_at)->translatedFormat('l, d F Y');
             })
+            ->addColumn('status', function ($row) {
+                $totalHousehold = DetailEvent::where('household_id',$row->household_id)->sum('jumlah_bayar');
+                $dataEvent      = event::find($row->event_id);
+                $biayaPerKK     = $dataEvent->biaya_perkk;
+                $BiayaPerOrang  = number_format($totalHousehold, 2, '.', '');
+                if($BiayaPerOrang >= $biayaPerKK) {
+                    $r = '<button class="btn btn-sm btn-success" style="color:white;">Dana tercapai</button>';
+                }else {
+                    $r = '<button class="btn btn-sm btn-warning" style="color:white;">Dana belum tercapai</button>';
+
+                }
+                return $r ;
+            })
             ->addColumn('action', function($row) use ($event_id) {
                 $households = Household::find($row->household_id);
                 $route = route('edit.detail.event.id',['event_id' => $event_id,'name' => $households->head_name,'user_id' => $households->id]);
@@ -108,7 +133,7 @@ class PaymentController extends Controller
                 return "Rp. ". number_format($row->jumlah_bayar,0,'.',',');
             })
             ->with('totalAllPayments' ,$totalAllPayments)
-            ->rawColumns(['action','terkumpul','created_at'])
+            ->rawColumns(['action','terkumpul','created_at','status'])
             ->make(true);
     }
 

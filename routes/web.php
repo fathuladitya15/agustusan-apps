@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function() {
         Route::prefix('tagihan')->group(function() {
             Route::get('index',[PaymentController::class,'index'])->name('event');
             Route::get('data',[PaymentController::class,'getEvent'])->name('get.event');
+            Route::post('data-event',[PaymentController::class,'updateEvent'])->name('update.event');
             Route::get('detail-event/{id}',[PaymentController::class,'detailEvent'])->name('detail.event');
             Route::get('detail-event/{id}/data',[PaymentController::class,'getDetailEvent'])->name('get.detail.event');
             Route::get('detail-event/{id}/data-household',[PaymentController::class,'detailEventSearchHousehold'])->name('get.house.hold');

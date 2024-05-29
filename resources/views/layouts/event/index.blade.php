@@ -24,6 +24,7 @@
                           <th>Total KK</th>
                           <th>Tahun Acara</th>
                           <th>Pendapatan</th>
+                          <th>Biaya per KK</th>
                           <th>Aksi</th>
                         </tr>
                     </thead>
@@ -31,6 +32,36 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Masukan Biaya Tagihan per KK</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <form id="updateEvent">
+                    @csrf
+                    <input type="hidden" name="event_id" value="" id="event_id">
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Rp</span>
+                            <input type="text" id="biaya_perkk" name="biaya_perkk" value="" class="form-control" placeholder="100000" aria-label="" aria-describedby="basic-addon1">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                        <button type="submit" id="simpan" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
 @endsection
 
@@ -47,6 +78,7 @@
                     { data: 'total_kepala_keluarga', name: 'total_kepala_keluarga' },
                     { data: 'tahun_acara', name : 'tahun_acara'},
                     { data: 'total_pendapatan', name : 'total_pendapatan'},
+                    { data: 'biaya_perkk', name : 'biaya_perkk'},
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ]
         });
@@ -78,7 +110,56 @@
             })
         })
 
+        var addBiaya = $(document).on('click','.add_biaya', function() {
+            var id = $(this).data("id");
+            var value = $(this).data("value");
+            var input = document.getElementById('biaya_perkk');
+            let result = Math.floor(value);
 
-    })
+            $("#modal-default").modal("show");
+            document.getElementById('event_id').value = id;
+            if(value != null ) {
+                input.value = result    ;
+            }else {
+                input.value = 0;
+            }
+        });
+
+        var submitBiaya = $("#updateEvent").on('submit', function(e) {
+            e.preventDefault()
+            var btn  = document.getElementById("simpan");
+            $.ajax({
+                url     : '{{ route("update.event") }}',
+                type    : "POST",
+                data    : $(this).serialize(),
+                beforeSend : function() {
+                    btn.innerHTML = loading;
+                },success: function(s) {
+                    iziToast.success({
+                        title: 'Berhasil.',
+                        message: s.pesan,
+                        position: 'topRight'
+                    });
+                    $("#modal-default").modal("hide");
+                    table.ajax.reload();
+                }, error: function(xhr) {
+                    var err = xhr.responseJSON;
+                    $.each(err.errors, function(key, value) {
+                        iziToast.error({
+                            title: 'Error',
+                            message: value,
+                            position: 'topRight'
+                        });
+                    });
+                },complete: function() {
+                    btn.innerHTML = "Simpan";
+                }
+
+            });
+        });
+
+
+    });
+    console.log('{{ session("errors") }}');
 </script>
 @endpush

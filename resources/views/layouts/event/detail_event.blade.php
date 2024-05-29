@@ -34,13 +34,14 @@
                           <th>Minggu ke -</th>
                           <th>Tanggal Pembayaran</th>
                           <th>Pembayaran</th>
+                          <th>Status</th>
                           <th>Total Pembayaran</th>
                           <th>Aksi</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="6" style="text-align: right;" id="totalAllPayments"></th>
+                            <th colspan="7" style="text-align: right;" id="totalAllPayments"></th>
                             <th></th>
                         </tr>
                     </tfoot>
@@ -145,6 +146,7 @@
                     { data: 'minggu_ke', name : 'minggu_ke'},
                     { data: 'created_at', name : 'created_at'},
                     { data: 'jumlah_bayar', name : 'jumlah_bayar'},
+                    { data: 'status', name : 'status'},
                     { data: 'terkumpul', name : 'terkumpul'},
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ],
