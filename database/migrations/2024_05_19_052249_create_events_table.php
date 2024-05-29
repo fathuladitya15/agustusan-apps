@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('total_kepala_keluarga')->default(0);
             $table->year('tahun_acara');
             $table->decimal('total_pendapatan', 15, 2);
+            $table->decimal('biaya_perkk',15,2)->nullable();
             $table->timestamps();
         });
     }

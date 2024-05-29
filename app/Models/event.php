@@ -13,6 +13,7 @@ class event extends Model
         'total_kepala_keluarga',
         'tahun_acara',
         'total_pendapatan',
+        'biaya_perkk'
     ];
 
     public function detailEvents()

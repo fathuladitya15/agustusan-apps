@@ -26,6 +26,23 @@
                 <i class="fas fa-th-large"></i>
             </a>
         </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="far fa-user"></i>
+              {{-- <span class="badge badge-warning navbar-badge">15</span> --}}
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" href="{{ route('logout') }}"
+              onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                <i class="fa-solid fa-door-open mr-2"></i> Logout
+              </a>
+            </div>
+          </li>
     </ul>
 </nav>
 <!-- /.navbar -->

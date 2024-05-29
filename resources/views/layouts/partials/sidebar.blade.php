@@ -31,7 +31,7 @@
                 </a>
             </li>
 
-            <li class="nav-header">MANAJEMEN PENDUDUK</li>
+            <li class="nav-header">MANAJEMEN </li>
             <li class="nav-item">
                 <a href="{{ route('penduduk') }}" class="nav-link {{ menuActive('penduduk') }}  ">
                 <i class="nav-icon fas fa-users"></i>
@@ -40,6 +40,16 @@
                 </p>
                 </a>
             </li>
+            @can('manage_users')
+                <li class="nav-item">
+                    <a href="{{ route('users.index') }}" class="nav-link {{ menuActive('users.index') }}  ">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                    Data Pengguna
+                    </p>
+                    </a>
+                </li>
+            @endcan
 
             <li class="nav-header">BIAYA & PENGELUARAN</li>
             <li class="nav-item">

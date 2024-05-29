@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HouseholdController;
 use App\Http\Controllers\PaymentController;
-
+use App\Http\Controllers\Admin\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +31,12 @@ Route::middleware('auth')->group(function() {
             Route::get('index',[HouseholdController::class,'index'])->name('penduduk');
             Route::get('data',[HouseholdController::class,'getPenduduk'])->name('get.penduduk');
             Route::delete('delete/{id}',[HouseholdController::class,'deletePenduduk'])->name('delete.penduduk');
+        });
+
+        Route::prefix('users')->group(function() {
+            Route::get('index',[UserController::class,'index'])->name('users.index');
+            Route::get('index/data',[UserController::class,'dataUsers'])->name('users.data');
+            Route::get('roles',[UserController::class,'getRoles'])->name('users.get.roles');
         });
 
         Route::prefix('tagihan')->group(function() {
