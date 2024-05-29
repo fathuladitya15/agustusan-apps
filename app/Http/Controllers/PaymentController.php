@@ -48,6 +48,9 @@ class PaymentController extends Controller
     }
 
     function updateEvent(Request $request) {
+        $data = event::find($request->event_id);
+        $data->biaya_perkk = $request->biaya_perkk;
+        $data->update();
         return response()->json(['pesan' => 'Biaya per KK diperbaharui']);
     }
 
