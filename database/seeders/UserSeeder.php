@@ -40,16 +40,18 @@ class UserSeeder extends Seeder
         $wargaRole = Role::create(['name' => 'warga']);
 
         // Membuat permissions
-        $manageUsersPermission = Permission::create(['name' => 'manage_users']);
-        $manageDocumentsPermission = Permission::create(['name' => 'manage_documents']);
-        $manageAnnouncementsPermission = Permission::create(['name' => 'manage_announcements']);
-        $manageRoleAndPermission = Permission::create(['name' => 'manage_users_permission']);
+        $manageUsersPermission = Permission::create(['name' => 'manage_users']); //Kelola pengguna
+        $manageDocumentsPermission = Permission::create(['name' => 'manage_documents']); // kelola dokumen
+        $manageAnnouncementsPermission = Permission::create(['name' => 'manage_announcements']); //kelola pengumuman
+        $manageRoleAndPermission = Permission::create(['name' => 'manage_users_permission']); // kelola roles dan permission
+        $manageHousehold = Permission::create(['name' => 'manage_household']);
+        $manageEvent = Permission::create(['name' => 'manage_event']);
         // Tambahkan permissions lainnya sesuai kebutuhan
 
         // Assign permissions ke roles
-        $adminRole->syncPermissions([$manageUsersPermission, $manageDocumentsPermission, $manageAnnouncementsPermission,$manageRoleAndPermission]);
+        $adminRole->syncPermissions([$manageUsersPermission, $manageDocumentsPermission, $manageAnnouncementsPermission,$manageRoleAndPermission,$manageEvent]);
         $pengurusRTRole->syncPermissions([$manageDocumentsPermission, $manageAnnouncementsPermission]);
-        $karangTarunaRole->syncPermissions([$manageAnnouncementsPermission]);
+        $karangTarunaRole->syncPermissions([$manageAnnouncementsPermission,$manageHousehold,$manageEvent]);
         // Tambahkan assignments lainnya sesuai kebutuhan
 
         // Membuat user admin
@@ -86,5 +88,15 @@ class UserSeeder extends Seeder
         $karangTaruna->assignRole($karangTarunaRole);
 
         // Tambahkan assignments role ke user lainnya
+
+        $resky = User::create([
+            'name' => 'Resky almiraj',
+            'username' => 'resky',
+            'email' => 'karangTarunaa@example.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        $resky->assignRole($karangTarunaRole);
+
     }
 }

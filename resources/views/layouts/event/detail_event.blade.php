@@ -26,6 +26,40 @@
 
                 </div>
                 <br>
+                <h4>Hitung tagihan mingguan</h4>
+                <hr>
+                <form action="#">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Minggu ke ? </label>
+                            <div class="input-group ">
+                                <select name="minggu" id="minggu" class="form-control">
+                                    <option value="">-- Pilih minggu ke - --</option>
+                                    @foreach ($events as $item)
+                                        <option value="{{ $item->minggu_ke }}">Minggu ke - {{ $item->minggu_ke }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="input-group-append">
+                                  <button  type="button" class="btn btn-info btn-flat" id="count"><i class="fa-solid fa-calculator"></i>  Hitung</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label for="">Hasil</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">
+                                   Rp
+                                  </span>
+                                </div>
+                                <input type="text" class="form-control" id="jumlah" readonly>
+                              </div>
+                        </div>
+                    </div>
+                </form>
+                <br><br>
+                <h4>Data Tagihan</h4>
+                <hr>
                 <table id="table" class="table table-bordered table-hover table-responsive" style="width:100%">
                     <thead>
                         <tr>
@@ -357,6 +391,40 @@
                     });
                 }
             })
+        })
+
+
+        var count = $(document).on('click','#count',function () {
+            var value = $("#minggu").val();
+            var event_id = "{{ $events_id }}";
+            var url_weeks = "{{ route('count.detail.event.weeks') }}";
+            if (value == "" || value == null) {
+                iziToast.error({
+                    title: 'Error',
+                    message : 'Anda belum memilih minggu',
+                    position : 'topRight',
+                });
+            }else {
+                $.ajax({
+                    url : url_weeks,
+                    data : {minggu_ke : value, event_id : event_id},
+                    type:'GET',
+                    beforeSend: function() {
+
+                    },success: function(s){
+                        var total = s.jumlah;
+                        document.getElementById('jumlah').value = total;
+                        console.log(total);
+
+                    },error: function(xhr) {
+                        iziToast.error({
+                            title: 'Error',
+                            message : 'Terjadi kesalahan, hubungi tim IT',
+                            position : 'topRight',
+                        });
+                    }
+                })
+            }
         })
 
     })

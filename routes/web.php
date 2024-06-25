@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function() {
             Route::post('detail-event-tagihan/update',[PaymentController::class,'updateDetailEventPerId'])->name('update.detail.event.id');
             Route::get('detail-event-details/{event_id}/{name}/{user_id}',[PaymentController::class,'editDetailEventPerId'])->name('edit.detail.event.id');
             Route::delete('detail-event-delete/{id}/{event_id}',[PaymentController::class,'deleteDetailEventPerId'])->name('delete.detail.event.id');
+            Route::get('detail-event-count-weeks',[PaymentController::class,'countEventPerWeeks'])->name('count.detail.event.weeks');
             // Route::delete('delete/{id}',[PaymentController::class,'deleteEvent'])->name('delete.event');
         });
 

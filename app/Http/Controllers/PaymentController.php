@@ -57,12 +57,17 @@ class PaymentController extends Controller
     function detailEvent($id) {
         $data = event::find($id);
         if($data->biaya_perkk == null ) {
-            return redirect()->back()->with('errors','Biaya per KK Belum diisi');
+            return redirect()->back()->with('errors','Biaya tagihan belum diisi');
         }
         $totalAllPayments = DetailEvent::where('event_id',$id)->sum('jumlah_bayar');
-
+        $events = DB::table('detail_events')
+                ->select('minggu_ke')
+                ->where('event_id',$id)
+                ->groupBy('minggu_ke')
+                ->get();
         $formatAllPayments = "Rp. ". number_format($totalAllPayments,0,',','.');
-        return view('layouts.event.detail_event',compact('data','formatAllPayments'));
+        $events_id = $id;
+        return view('layouts.event.detail_event',compact('data','formatAllPayments','events','events_id'));
 
     }
 
@@ -276,5 +281,13 @@ class PaymentController extends Controller
         return response()->json(['pesan' => 'Data dihapus.']);
 
 
+    }
+
+    function countEventPerWeeks(Request $request) {
+        $minggu_ke = $request->minggu_ke;
+        $event_id  = $request->event_id;
+        $totalBayarPerMinggu = DetailEvent::where('minggu_ke', $minggu_ke)->where('event_id',$event_id)->sum('jumlah_bayar');
+        $toIdr = number_format($totalBayarPerMinggu,0,',','.');
+        return response()->json(['jumlah' => $toIdr]);
     }
 }

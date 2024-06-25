@@ -32,6 +32,7 @@
             </li>
 
             <li class="nav-header">MANAJEMEN </li>
+            @can('manage_household')
             <li class="nav-item">
                 <a href="{{ route('penduduk') }}" class="nav-link {{ menuActive('penduduk') }}  ">
                 <i class="nav-icon fas fa-users"></i>
@@ -40,6 +41,8 @@
                 </p>
                 </a>
             </li>
+
+            @endcan
             @can('manage_users')
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link {{ menuActive('users.index') }}  ">
@@ -52,6 +55,7 @@
             @endcan
 
             <li class="nav-header">BIAYA & PENGELUARAN</li>
+            @can('manage_event')
             <li class="nav-item">
                 <a href="{{ route('event') }}" class="nav-link {{ menuActive(['event','detail.event','edit.detail.event.id']) }}  ">
                 <i class="nav-icon fas fa-file-invoice"></i>
@@ -60,6 +64,8 @@
                 </p>
                 </a>
             </li>
+
+            @endcan
 
 
         </ul>
