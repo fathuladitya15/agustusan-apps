@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HouseholdController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ShowPaymentHousehold;
 use App\Http\Controllers\Admin\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,9 @@ use App\Http\Controllers\Admin\UserController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/info-pembayaran',[ShowPaymentHousehold::class,'index']);
+Route::get('/info-detail',[ShowPaymentHousehold::class,'show'])->name('info.search');
 
 Auth::routes();
 
